@@ -1,22 +1,21 @@
-# Use a Python base image
-# Use a Python base image
-FROM python:3.10
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim
 
-# Set environment variables
+# Set environment variables to avoid Python writing .pyc files to disk
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy requirements.txt first to leverage Docker cache
+# Copy only the requirements file to leverage Docker cache
 COPY requirements.txt /app/
 
-# Install dependencies
+# Upgrade pip and install dependencies
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application files
+# Copy the rest of the application code
 COPY . /app/
 
 # Command to run the application
