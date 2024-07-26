@@ -5,6 +5,12 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# Install system dependencies for Tkinter and other packages
+RUN apt-get update && \
+    apt-get install -y \
+    libtk8.6 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /app
 
