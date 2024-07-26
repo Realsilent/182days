@@ -4,28 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Notes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="overlay"></div>
     <div class="container">
-        <h1>Welcome, {{ user }}!</h1>
-        <form action="/add_note" method="post">
-            <textarea name="content" required></textarea>
+        <h1>Welcome!</h1>
+        <form id="noteForm">
+            <textarea name="content" placeholder="Write a note..." required></textarea>
             <button type="submit">Add Note</button>
         </form>
-        <ul>
-            {% for note in notes %}
-                <li>{{ note.content }} - {{ note.user }}
-                    {% if user == 'admin' %}
-                        <form action="/delete_note/{{ note.id }}" method="post" style="display:inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                    {% endif %}
-                </li>
-            {% endfor %}
+        <ul id="noteList">
+            <!-- Notes will be dynamically added here -->
         </ul>
-        <a href="/logout">Logout</a>
+        <a href="login.html">Login</a>
     </div>
+
+    <script>
+        // Simulate fetching notes
+        const notes = [
+            { id: 1, content: 'First note!', user: 'silent' },
+            { id: 2, content: 'Another note!', user: 'raifa' }
+        ];
+
+        const noteList = document.getElementById('noteList');
+
+        notes.forEach(note => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${note.content} - ${note.user}`;
+            noteList.appendChild(listItem);
+        });
+
+        // Handle form submission
+        document.getElementById('noteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const content = this.querySelector('textarea').value;
+            alert(`Note added: ${content}`);
+            // Here you would normally handle note addition
+        });
+    </script>
 </body>
 </html>
